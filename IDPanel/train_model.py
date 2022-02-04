@@ -42,7 +42,7 @@ if __name__ == "__main__" or True:
     print("Creating training and testing sets")
     X_train, X_test, y_train, y_test = train_test_split(vectors, labels, stratify=labels)
     print(X_train.shape[0], "samples in training set,", len(set(list(y_train))), "labels in training set")
-    print(X_test.shape[0], "samples in training set,", len(set(list(y_test))), "labels in testing set")
+    print(X_test.shape[0], "samples in testing set,", len(set(list(y_test))), "labels in testing set")
 
     decision_trees = {}
 
