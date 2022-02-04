@@ -37,6 +37,7 @@ if __name__ == "__main__":
     print("Mean distance between vectors:", vector_distances.mean())
     print("Maximum distance between vectors:", vector_distances.max())
     print("")
+    del vector_distances  # remove huge matrix not used bellow to free memory
 
     silhouette_scores = silhouette_samples(vectors, clusters)
     centroid_distances = []
@@ -62,4 +63,4 @@ if __name__ == "__main__":
     print("Minimum label centroid distance:", centroid_distances.min())
     print("Mean label centroid distance:", centroid_distances.mean())
     print("Max label centroid distance:", centroid_distances.max())
-    print("Overall Silhouette Score", silhouette_score(vector_distances, clusters))
+    print("Overall Silhouette Score", silhouette_scores.mean())
