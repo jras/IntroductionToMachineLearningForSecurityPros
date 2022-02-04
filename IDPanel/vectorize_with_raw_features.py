@@ -6,6 +6,8 @@ import json
 from multiprocessing.pool import Pool
 from multiprocessing import cpu_count
 
+USE_MULTIPROCESS = True  
+# Set to false in case of getting errors in multiprocessing synchronization
 
 _raw_features = None
 _sites = None
@@ -52,8 +54,13 @@ if __name__ == "__main__":
     labels = []
     names = []
     vectors = []
-    pool = Pool(processes=cpu_count(), initializer=preload_process, initargs=(sites,))
-    for vector, site in pool.imap_unordered(compute_vectors, sites.keys()):
+    if USE_MULTIPROCESS:
+        pool = Pool(processes=cpu_count(), initializer=preload_process, initargs=(sites,))
+        siteiterator = pool.imap_unordered(compute_vectors, sites.keys())
+    else:
+        preload_process(sites)
+        siteiterator = map(compute_vectors, sites.keys())
+    for vector, site in siteiterator:
         if site_labels[site] in labels_to_ignore:
             continue
         vectors.append(vector)
