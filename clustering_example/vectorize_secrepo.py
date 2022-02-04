@@ -68,7 +68,7 @@ def convert_prevectors_to_vectors(prevectors):
         206,
         418,
         416,
-        403,
+        400,
         405,
         503,
         500,
@@ -84,7 +84,7 @@ def convert_prevectors_to_vectors(prevectors):
                 vectors[index, ri] = v["requests"][r]
         for ri, r in enumerate(response_codes):
             if r in v["responses"]:
-                vectors[index, len(request_types) + ri] = v["requests"][r]
+                vectors[index, len(request_types) + ri] = v["responses"][r]
 
     return ips, vectors
 

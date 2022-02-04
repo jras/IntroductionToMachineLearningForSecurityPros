@@ -14,7 +14,7 @@ def visualize(vectors):
         projected_vectors[:, 0],
         projected_vectors[:, 1],
         zs=projected_vectors[:, 2],
-        s=200,
+        s=20,
     )
     plt.show()
 
