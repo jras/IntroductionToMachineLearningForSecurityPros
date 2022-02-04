@@ -4,6 +4,23 @@ import struct
 from sklearn.metrics import pairwise_distances, silhouette_samples, silhouette_score
 import numpy as np
 
+from sklearn.metrics import pairwise_distances_chunked  # sklearn version >= 0.20
+
+def stats_pairs_distances(vectors):    # Reduce memory usage with chunks
+    gen_dist_chunks = pairwise_distances_chunked(vectors)  # chunks generator
+    d_chunk = next(gen_dist_chunks)
+    low = d_chunk.min()
+    high = d_chunk.max()
+    acum = d_chunk.sum()
+    count = d_chunk.size
+    for d_chunk in gen_dist_chunks:
+        low = min(low, d_chunk.min())
+        high = max(high, d_chunk.min())
+        acum += d_chunk.sum()
+        count += d_chunk.size
+    # for average, discount size vectors from count (for diagonal zeros sumed)
+    return low, high, acum/(count-np.sqrt(count))
+
 
 def int2ip(addr):
     return socket.inet_ntoa(struct.pack("!I", addr))
@@ -32,12 +49,11 @@ if __name__ == "__main__":
     print("Percentage of null values:", 100.0 * (float((vectors == 0).sum()) / (vectors.shape[0] * vectors.shape[1])))
     print("")
 
-    vector_distances = pairwise_distances(vectors)
-    print("Minimum distance between vectors:", vector_distances.min())
-    print("Mean distance between vectors:", vector_distances.mean())
-    print("Maximum distance between vectors:", vector_distances.max())
+    low, high, avg = stats_pairs_distances(vectors)
+    print("Minimum distance between vectors:", low)
+    print("Mean distance between vectors:", avg)
+    print("Maximum distance between vectors:", high)
     print("")
-    del vector_distances  # remove huge matrix not used bellow to free memory
 
     silhouette_scores = silhouette_samples(vectors, clusters)
     centroid_distances = []
@@ -47,14 +63,14 @@ if __name__ == "__main__":
         n_vects = vectors[clusters == label, :]
         centroid = n_vects.mean(0)
         centroid_distances.extend(pairwise_distances(centroid.reshape(1, -1), n_vects).tolist()[0])
-        distances = pairwise_distances(n_vects)
+        low, high, avg = stats_pairs_distances(n_vects)
         scores = silhouette_scores[clusters == label]
 
         print("Number of items in label {0}: {1}  ({2}%) (avg dist: {3}) (avg silhouette: {4})".format(
             label,
             n_vects.shape[0],
             (100.0 * n_vects.shape[0]) / vectors.shape[0],
-            distances.mean(),
+            avg,
             scores.mean()
         ))
     print("")
