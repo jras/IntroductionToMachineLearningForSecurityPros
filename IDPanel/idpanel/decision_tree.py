@@ -29,7 +29,7 @@ class DecisionTree:
         min_t = None
         best_split = None
 
-        for f_index in xrange(1, len(f_vals)):
+        for f_index in range(1, len(f_vals)):
             if f_vals[f_index][0] != f_vals[f_index - 1][0]:
                 split_point = float(f_vals[f_index][1] + f_vals[f_index - 1][1]) / 2.0
                 if split_point not in split_points:
@@ -73,7 +73,7 @@ class DecisionTree:
             bl = []
             al = []
 
-            for index in xrange(v.shape[0]):
+            for index in range(v.shape[0]):
                 if v[index, feature] < split:
                     bv.append(v[index, :])
                     bl.append(l[index])
@@ -121,7 +121,7 @@ class DecisionTree:
         if len(vectors.shape) == 1:
             vectors = vectors.reshape(1, vectors.shape[0])
         results = []
-        for index in xrange(vectors.shape[0]):
+        for index in range(vectors.shape[0]):
             results.append(self._predict_vector(vectors[index, :]))
 
         return results
@@ -129,7 +129,7 @@ class DecisionTree:
     def predict(self, vectors):
         probs = self.predict_probs(vectors)
         results = []
-        for index in xrange(vectors.shape[0]):
+        for index in range(vectors.shape[0]):
             results.append(sorted(probs[index].items(), key=lambda x: x[1], reverse=True)[0][0])
 
         return results
@@ -138,24 +138,24 @@ class DecisionTree:
         if len(vectors.shape) == 1:
             vectors = vectors.reshape(1, vectors.shape[0])
         results = self.predict(vectors)
-        matches = len([ri for ri in xrange(len(labels)) if labels[ri] == results[ri]])
+        matches = len([ri for ri in range(len(labels)) if labels[ri] == results[ri]])
         return float(matches) / float(len(labels))
 
 
 if __name__ == "__main__":
     dt = DecisionTree([])
 
-    print 1 == dt._calculate_entropy(
+    print(1 == dt._calculate_entropy(
         [
             (0, 0),
             (1, 0)
         ]
-    )
+    ))
 
-    print 0 == dt._calculate_entropy(
+    print(0 == dt._calculate_entropy(
         [
             (0, 0),
             (0, 0),
         ]
-    )
+    ))
 

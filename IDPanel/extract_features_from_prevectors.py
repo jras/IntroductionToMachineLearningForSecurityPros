@@ -15,15 +15,15 @@ if __name__ == "__main__":
                 continue
             data_points.append(line)
 
-    print "Loaded {0} prevectors".format(len(data_points))
+    print("Loaded {0} prevectors".format(len(data_points)))
     features = reduce_prevector_datapoints_to_features(data_points)
-    print "Extracted {0} features".format(len(features))
+    print("Extracted {0} features".format(len(features)))
     offsets = set([feature[0] for feature in features])
-    print "Features cover {0} requests".format(len(offsets))
+    print("Features cover {0} requests".format(len(offsets)))
     with open("raw_features.json", "w") as f:
         json.dump(features, f)
 
     labels = sorted(set([dp["label"] for dp in data_points]))
-    print "Vectors cover {0} labels".format(len(labels))
+    print("Vectors cover {0} labels".format(len(labels)))
     with open("labels.json", "w") as f:
         json.dump(labels, f)

@@ -49,10 +49,10 @@ if __name__ == "__main__" or True:
     labels = [1 if l != "not_panel" else 0 for l in original_labels]
 
     vectors = np.array(vectors)
-    print "Creating training and testing sets"
+    print("Creating training and testing sets")
     X_train, X_test, y_train, y_test = train_test_split(vectors, labels, stratify=labels)
-    print X_train.shape[0], "samples in training set,", len(set(list(y_train))), "labels in training set"
-    print X_test.shape[0], "samples in training set,", len(set(list(y_test))), "labels in testing set"
+    print(X_train.shape[0], "samples in training set,", len(set(list(y_train))), "labels in training set")
+    print(X_test.shape[0], "samples in training set,", len(set(list(y_test))), "labels in testing set")
 
     lr = LogisticRegression(
         n_jobs=-1,
@@ -72,8 +72,8 @@ if __name__ == "__main__" or True:
     pred = lr.predict(X_test)
     pred_proba = lr.predict_proba(X_test)
 
-    print "Confusion Matrix:"
-    print confusion_matrix(y_test, pred)
+    print("Confusion Matrix:")
+    print(confusion_matrix(y_test, pred))
 
     #print np.array(y_test) == 1
     pos_hist, pos_bin_edges = np.histogram(pred_proba[np.array(y_test) == 1, 1],
@@ -105,6 +105,6 @@ if __name__ == "__main__" or True:
     #ax2.legend(loc="lower right")
     plt.show()
 
-    with open("bot_model.lrmdl", "w") as f:
+    with open("bot_model.lrmdl", "wb") as f:
         pickle.dump({"model": lr, "relevant_features": lr.coef_ != 0}, f)
 

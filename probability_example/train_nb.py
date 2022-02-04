@@ -5,7 +5,7 @@ import numpy as np
 from scipy.sparse import lil_matrix, vstack
 from sklearn.metrics import classification_report
 from string import digits, punctuation, whitespace, ascii_letters
-import cPickle as pickle
+import pickle
 
 character_classes = [
     ascii_letters,
@@ -94,16 +94,16 @@ if __name__ == "__main__":
     #print nb.class_count_
     #print np.e ** nb.class_log_prior_
 
-    print "Predict(Sunshine Quiz Wkly Q! Win a top Sony DVD player if u know which country the Algarve is in? Txt ansr to 82277. £1.50 SP:Tyrone)"
-    print nb.predict_proba(vectorize_sentence("Sunshine Quiz Wkly Q! Win a top Sony DVD player if u know which country the Algarve is in? Txt ansr to 82277. £1.50 SP:Tyrone"))
+    print("Predict(Sunshine Quiz Wkly Q! Win a top Sony DVD player if u know which country the Algarve is in? Txt ansr to 82277. £1.50 SP:Tyrone)")
+    print(nb.predict_proba(vectorize_sentence("Sunshine Quiz Wkly Q! Win a top Sony DVD player if u know which country the Algarve is in? Txt ansr to 82277. £1.50 SP:Tyrone")))
 
-    print "Predict(What time you coming down later?)"
-    print nb.predict_proba(vectorize_sentence("What time you coming down later?"))
+    print("Predict(What time you coming down later?)")
+    print(nb.predict_proba(vectorize_sentence("What time you coming down later?")))
 
     test_predict = nb.predict(X_test)
-    print "Classification report for testing set"
-    print "Accuracy:", (test_predict == y_test).mean()
-    print classification_report(y_test, test_predict)
+    print("Classification report for testing set")
+    print("Accuracy:", (test_predict == y_test).mean())
+    print(classification_report(y_test, test_predict))
 
-    with open("naive_bayes.pkl", "w") as f:
+    with open("naive_bayes.pkl", "wb") as f:
         pickle.dump(nb, f)

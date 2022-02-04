@@ -8,9 +8,10 @@ from idpanel.utility import make_request
 from os.path import isfile
 
 
-def get_item_from_site((panel_name, base_url, path)):
+def get_item_from_site(packeditem):
+    (panel_name, base_url, path) = packeditem
     url = base_url + path
-    for attempt in xrange(3):
+    for attempt in range(3):
         try:
             code, content = make_request(url)
             return json.dumps(
@@ -22,8 +23,8 @@ def get_item_from_site((panel_name, base_url, path)):
                     "offset": path,
                     "label": panel_name,
                 }) + "\n"
-        except Exception, e:
-            print e
+        except Exception as e:
+            print(e)
             continue
     return None
 
@@ -40,7 +41,7 @@ if __name__ == "__main__":
                 try:
                     line = json.loads(line)
                 except:
-                    print line
+                    print(line)
                     raise
                 data_points.add(line["url"])
 
@@ -52,12 +53,12 @@ if __name__ == "__main__":
             if url[1] + path not in data_points:
                 requests_to_make.append((url[0], url[1], path))
 
-    print "Making", len(requests_to_make), "requests"
+    print("Making", len(requests_to_make), "requests")
     pool = Pool(size=10)
     completed = 0
     with open("prevectors.json", "a") as f:
         for result in pool.imap_unordered(get_item_from_site, requests_to_make):
             completed += 1
-            print "{0} completed out of {1}".format(completed, len(requests_to_make))
+            print("{0} completed out of {1}".format(completed, len(requests_to_make)))
             if result is not None:
                 f.write(result)

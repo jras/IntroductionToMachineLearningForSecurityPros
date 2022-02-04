@@ -17,7 +17,7 @@ def load_data_from_results_file(path):
             if data['base_url'] not in c2_bases:
                 c2_bases[data['base_url']] = {}
             data["offset"] = data["url"][len(data["base_url"]):]
-            print "{0}  -  {1}  -  {2}".format(data['code'], data['base_url'], data['offset'])
+            print("{0}  -  {1}  -  {2}".format(data['code'], data['base_url'], data['offset']))
             c2_bases[data['base_url']][data['offset']] = data
 
     return c2_bases

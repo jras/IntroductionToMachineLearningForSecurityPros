@@ -116,14 +116,14 @@ if __name__ == "__main__":
         p_ham = 100.0 * float(cluster_labels[key][0]) / float(total_samples)
         p_spam = 100.0 * float(cluster_labels[key][1]) / float(total_samples)
 
-        print "Cluster {0} - Total Samples: {1} - Percent Ham: {2} - Percent Spam: {3}".format(
+        print("Cluster {0} - Total Samples: {1} - Percent Ham: {2} - Percent Spam: {3}".format(
             key,
             total_samples,
             p_ham,
             p_spam
-        )
+        ))
 
     if print_clusters:
         for key in sorted(clusters.keys()):
             for s in clusters[key]:
-                print "Cluster", key, " - ", s
+                print("Cluster", key, " - ", s)

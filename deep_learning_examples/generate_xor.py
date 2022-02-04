@@ -15,7 +15,7 @@ def make_dataset(dataset, nsamp, slen, maxkeylen):
     x = np.zeros((nsamp, slen, 8))
     y = np.zeros((nsamp, maxkeylen))
 
-    for i in xrange(nsamp):
+    for i in range(nsamp):
         keylen = np.random.randint(maxkeylen) + 1
 
         # save key len as categorical variable
@@ -52,27 +52,27 @@ if __name__ == "__main__":
     parser.add_argument('-o', '--output', required=True, help="File to write encrypted data to")
     args = parser.parse_args()
 
-    print "Loading data"
+    print("Loading data")
     with open("enwik8", "r") as f:
         dataset = f.read()
 
     dataptr = np.random.randint(len(dataset) - 64)
     data = dataset[dataptr:dataptr + 64]
 
-    print "Plaintext:", repr(data)
-    print "Key size:", args.bytes_in_key
+    print("Plaintext:", repr(data))
+    print("Key size:", args.bytes_in_key)
 
     key = generate_random_string(args.bytes_in_key)
     while principal_period(key) is not None:
         key = generate_random_string(args.bytes_in_key)
 
-    print "Key:", repr(key)
+    print("Key:", repr(key))
     cipher_text = ""
 
-    for i in xrange(len(data)):
+    for i in range(len(data)):
         cipher_text += chr(ord(data[i]) ^ ord(key[i % len(key)]))
 
-    print "Cipher text:", repr(cipher_text)
+    print("Cipher text:", repr(cipher_text))
 
     with open(args.output, "wb") as f:
         f.write(cipher_text)

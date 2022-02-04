@@ -39,10 +39,10 @@ if __name__ == "__main__" or True:
     labels = [1 if l != "not_panel" else 0 for l in original_labels]
 
     vectors = np.array(vectors)
-    print "Creating training and testing sets"
+    print("Creating training and testing sets")
     X_train, X_test, y_train, y_test = train_test_split(vectors, labels, stratify=labels)
-    print X_train.shape[0], "samples in training set,", len(set(list(y_train))), "labels in training set"
-    print X_test.shape[0], "samples in training set,", len(set(list(y_test))), "labels in testing set"
+    print(X_train.shape[0], "samples in training set,", len(set(list(y_train))), "labels in training set")
+    print(X_test.shape[0], "samples in training set,", len(set(list(y_test))), "labels in testing set")
 
     decision_trees = {}
 
@@ -58,13 +58,13 @@ if __name__ == "__main__" or True:
     )
     dt.fit(X_train, y_train)
 
-    print "Features required: ", (dt.feature_importances_ != 0).sum()
+    print("Features required: ", (dt.feature_importances_ != 0).sum())
 
     pred = dt.predict(X_test)
     pred_proba = dt.predict_proba(X_test)
 
-    print "Confusion Matrix:"
-    print confusion_matrix(y_test, pred)
+    print("Confusion Matrix:")
+    print(confusion_matrix(y_test, pred))
 
     #print np.array(y_test) == 1
     pos_hist, pos_bin_edges = np.histogram(pred_proba[np.array(y_test) == 1, 1],
@@ -106,5 +106,5 @@ if __name__ == "__main__" or True:
         class_names=["Not Bot Panel", "Bot Panel"]
     )
     os.system("dot -Tpng dt.dot -o tree.png")
-    with open("bot_model.mdl", "w") as f:
+    with open("bot_model.mdl", "wb") as f:
         pickle.dump({"model": dt, "relevant_features": dt.feature_importances_ != 0}, f)

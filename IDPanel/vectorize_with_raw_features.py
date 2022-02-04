@@ -23,7 +23,7 @@ def compute_vectors(site):
 
 
 if __name__ == "__main__":
-    print "Loading prevectors"
+    print("Loading prevectors")
     data_points = []
     with open("prevectors.json", "r") as f:
         for line in f:
@@ -36,9 +36,9 @@ if __name__ == "__main__":
 
     label_indeces = load_labels()
     raw_features = load_raw_features()
-    print "Loaded {0} features".format(len(raw_features))
+    print("Loaded {0} features".format(len(raw_features)))
 
-    print "Grouping prevectors by base_url"
+    print("Grouping prevectors by base_url")
     sites = {}
     site_labels = {}
     for dp in data_points:
@@ -48,7 +48,7 @@ if __name__ == "__main__":
 
         sites[dp['base_url']][dp['offset']] = {"code": dp['code'], "content_ssdeep": dp['content_ssdeep']}
 
-    print "Vectorizing {0} base urls".format(len(sites))
+    print("Vectorizing {0} base urls".format(len(sites)))
     labels = []
     names = []
     vectors = []
@@ -59,7 +59,7 @@ if __name__ == "__main__":
         vectors.append(vector)
         labels.append(site_labels[site])
         names.append(site)
-        print "Vector for {0} completed".format(site)
+        print("Vector for {0} completed".format(site))
 
     with open("raw_feature_vectors.json", "w") as f:
         json.dump({"labels": labels, "names": names, "vectors": vectors}, f)

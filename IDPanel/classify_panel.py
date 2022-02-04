@@ -10,7 +10,8 @@ import numpy as np
 import pickle
 
 
-def get_result_wrapper((base_url, request)):
+def get_result_wrapper(packedrequest):
+    (base_url, request) = packedrequest
     try:
         url = base_url + request
         code, ssdeep = make_request(url, True)
@@ -104,6 +105,6 @@ if __name__ == "__main__":
         vector = vectorize(raw_features, results[base_url]).reshape(1, -1)
         label = classifier.predict(vector)[0]
         probabilities = classifier.predict_proba(vector)[0]
-        print "{0}, {1}, {2}".format(base_url, "Not Panel" if label == 0 else "Botnet Panel", probabilities)
+        print("{0}, {1}, {2}".format(base_url, "Not Panel" if label == 0 else "Botnet Panel", probabilities))
         #label, scores, label_scores = classifier.get_label_probs(results[base_url])
         #print "\t".join([label if label is not None else "None", base_url, repr(label_scores)])

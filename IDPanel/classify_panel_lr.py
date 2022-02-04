@@ -11,7 +11,8 @@ from idpanel.training.features import load_raw_features
 import numpy as np
 
 
-def get_result_wrapper((base_url, request)):
+def get_result_wrapper(packedrequest):
+    (base_url, request) = packedrequest
     try:
         url = base_url + request
         code, ssdeep = make_request(url, True)
@@ -116,6 +117,6 @@ if __name__ == "__main__":
     for base_url in results.keys():
         label = {}
         label = classify(classifier, vectorize(raw_features, results[base_url]).reshape(1, -1))
-        print label
+        print(label)
         #label, scores, label_scores = classifier.get_label_probs(results[base_url])
         #print "\t".join([label if label is not None else "None", base_url, repr(label_scores)])

@@ -30,7 +30,7 @@ def make_dataset(dataset, nsamp, slen, maxkeylen):
     x = np.zeros((nsamp, slen, 8))
     y = np.zeros((nsamp, maxkeylen))
 
-    for i in xrange(nsamp):
+    for i in range(nsamp):
         keylen = np.random.randint(maxkeylen) + 1
 
         # save key len as categorical variable
@@ -110,26 +110,26 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
-    print args.__dict__
+    print(args.__dict__)
 
     lr = 0.001
     maxkeylen = 32
     slen = maxkeylen * 2
 
-    print "Loading data"
+    print("Loading data")
     with open("enwik8", "r") as f:
         dataset = f.read()
 
     tr_dataset = dataset[:9000000]
     val_dataset = dataset[9000000:]
 
-    print "Starting vectorization threads"
-    for _ in xrange(4):
+    print("Starting vectorization threads")
+    for _ in range(4):
         train_thread = Thread(target=generate_data, args=(True, tr_dataset, slen, maxkeylen))
         train_thread.daemon = True
         train_thread.start()
 
-    for _ in xrange(4):
+    for _ in range(4):
         test_thread = Thread(target=generate_data, args=(False, val_dataset, slen, maxkeylen))
         test_thread.daemon = True
         test_thread.start()
@@ -145,7 +145,7 @@ if __name__ == "__main__":
         lstm2_layer = LSTM(args.output_dim, return_sequences=True, go_backwards=True)(lstm1_layer)
         gmp_layer = GlobalMax1D()(lstm2_layer)
     else:
-        for _ in xrange(4):
+        for _ in range(4):
             conv_layer = Conv1D(args.output_dim, 16, border_mode='same')(prev_layer)
             bn_layer = BatchNormalization(axis=2)(conv_layer)
             act_layer = Activation(args.activation)(bn_layer)
@@ -167,7 +167,7 @@ if __name__ == "__main__":
         args.activation
     )
 
-    print "Model Summary"
+    print("Model Summary")
     model.summary()
     model.save(model_name)
 
@@ -189,15 +189,15 @@ if __name__ == "__main__":
         validation_score = np.mean(np.argmax(y_pred, axis=1) == np.argmax(y, axis=1))
         if validation_score > best_validation_score:
             best_validation_score = validation_score
-            print "New best validation score: {0} (saving)".format(validation_score)
+            print("New best validation score: {0} (saving)".format(validation_score))
             stale_epochs = 0
             model.save(model_name)
         else:
-            print "Validation score: {0}".format(validation_score)
+            print("Validation score: {0}".format(validation_score))
             stale_epochs += 1
 
         if stale_epochs > 10:
             stale_epochs = 0
             lr = float(0.9 * model.optimizer.lr.get_value())
             model.optimizer.lr.set_value(lr)
-            print "Reducing learning rate to {0} after 10 stale epochs".format(lr)
+            print("Reducing learning rate to {0} after 10 stale epochs".format(lr))

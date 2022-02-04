@@ -26,17 +26,17 @@ if __name__ == "__main__":
     parser.add_argument('-e', '--encrypted', required=True, help="File path to encrypted data")
     args = parser.parse_args()
 
-    print "Loading model"
+    print("Loading model")
     model = load_model(args.model)
     model.summary()
 
     with open(args.encrypted, "rb") as f:
         data = f.read()
 
-    print "Encrypted data:", repr(data)
+    print("Encrypted data:", repr(data))
     data = np.fromstring(data, dtype=np.uint8)
     data = np.unpackbits(data).reshape(1, data.shape[0], 8)
 
     prediction = model.predict(data)
-    print "Predicts {0} length".format(prediction.argmax() + 1)
-    print prediction
+    print("Predicts {0} length".format(prediction.argmax() + 1))
+    print(prediction)
