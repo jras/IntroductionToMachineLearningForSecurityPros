@@ -1,6 +1,6 @@
 import json
 from idpanel.training.features import reduce_prevector_datapoints_to_features
-from idpanel.blacklist import labels_to_ignore
+from idpanel.blacklist import labels_to_ignore, feature_blacklist
 
 if __name__ == "__main__":
     data_points = []
@@ -12,6 +12,8 @@ if __name__ == "__main__":
 
             line = json.loads(line)
             if line['label'] in labels_to_ignore:
+                continue
+            if line['offset'] in feature_blacklist:
                 continue
             data_points.append(line)
 

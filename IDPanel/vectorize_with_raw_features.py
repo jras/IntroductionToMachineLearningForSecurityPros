@@ -1,7 +1,7 @@
 from idpanel.training.vectorization import vectorize
 from idpanel.training.features import load_raw_features
 from idpanel.labels import load_labels
-from idpanel.blacklist import labels_to_ignore
+from idpanel.blacklist import labels_to_ignore, feature_blacklist
 import json
 from multiprocessing.pool import Pool
 from multiprocessing import cpu_count
@@ -44,6 +44,8 @@ if __name__ == "__main__":
     sites = {}
     site_labels = {}
     for dp in data_points:
+        if dp['offset'] in feature_blacklist:
+            continue
         if dp['base_url'] not in sites:
             sites[dp['base_url']] = {}
             site_labels[dp['base_url']] = dp['label']
