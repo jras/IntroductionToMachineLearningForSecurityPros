@@ -1,5 +1,5 @@
 import h5py
-from sklearn.cluster import KMeans, DBSCAN
+from sklearn.cluster import KMeans, DBSCAN, OPTICS
 import numpy as np
 from collections import Counter
 
@@ -7,7 +7,7 @@ from collections import Counter
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument("-c", "--cluster_method", choices=["kmeans", "dbscan"], default="kmeans")
+    parser.add_argument("-c", "--cluster_method", choices=["kmeans", "dbscan", "optics"], default="kmeans")
     parser.add_argument('-n', "--number_clusters", type=int, default=2)
     parser.add_argument('-e', '--epsilon', type=float, default=6)
     parser.add_argument('-m', '--number_points', type=int, default=1)
@@ -32,6 +32,11 @@ if __name__ == "__main__":
         number_points = args.number_points
         dbscan = DBSCAN(eps=epsilon, min_samples=number_points)
         clusters = dbscan.fit_predict(vectors)
+    elif cluster_method == "optics":
+        epsilon = args.epsilon
+        number_points = args.number_points
+        optics = OPTICS(eps=epsilon, min_samples=number_points, cluster_method='dbscan')
+        clusters = optics.fit_predict(vectors)
 
     counter = Counter(clusters.tolist())
     for key in sorted(counter.keys()):
