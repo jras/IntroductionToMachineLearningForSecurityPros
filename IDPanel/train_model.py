@@ -1,7 +1,7 @@
 from idpanel.training.vectorization import load_raw_feature_vectors
 from idpanel.training.features import load_raw_features
 from idpanel.labels import load_labels
-from sklearn.cross_validation import train_test_split
+from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier, export_graphviz
 import numpy as np
 import matplotlib.pyplot as plt
@@ -30,7 +30,7 @@ if __name__ == "__main__" or True:
 
     args = parser.parse_args()
 
-    warnings.warn = lambda x, y: x
+    warnings.warn = lambda x, *y, **z: x
 
     label_indeces = load_labels()
     raw_features = load_raw_features()

@@ -2,11 +2,11 @@
 sudo apt-get update;
 sudo apt-get upgrade -y;
 
-sudo apt-get install python-dev python-pip git libhdf5-dev python-tk libfuzzy-dev libffi-dev graphviz -y
+sudo apt-get -y install python3-dev python3-pip git libhdf5-dev python3-tk libfuzzy-dev libffi-dev graphviz lzma
 
-sudo pip install numpy scipy sklearn keras theano tensorflow h5py matplotlib gevent requests ssdeep
+sudo pip3 install numpy scipy sklearn keras theano tensorflow h5py matplotlib gevent requests ssdeep
 
-git clone https://github.com/CylanceSPEAR/IntroductionToMachineLearningForSecurityPros.git
+git clone https://github.com/jras/IntroductionToMachineLearningForSecurityPros.git
 
 cd IntroductionToMachineLearningForSecurityPros
 
