@@ -29,6 +29,7 @@ def get_prevectors():
                 try:
                     ip, request_type, response_code = LOG_REGEX.findall(line)[0]
                     ip = ip2int(ip)
+                    response_code = int(response_code)
                 except IndexError:
                     continue
 
