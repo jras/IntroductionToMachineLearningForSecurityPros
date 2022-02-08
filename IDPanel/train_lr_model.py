@@ -103,6 +103,7 @@ if __name__ == "__main__" or True:
     ax2.set_ylabel('True Positive Rate')
     ax2.set_title('Logistic Regression ROC Curve')
     #ax2.legend(loc="lower right")
+    plt.tight_layout()
     plt.show()
 
     with open("bot_model.lrmdl", "wb") as f:
