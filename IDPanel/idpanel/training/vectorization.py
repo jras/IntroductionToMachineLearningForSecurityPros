@@ -24,7 +24,7 @@ def load_data_from_results_file(path):
 
 
 def vectorize(feature_set, c2_data):
-    vector = np.zeros((len(feature_set),), dtype=np.float)
+    vector = np.zeros((len(feature_set),), dtype=float)
     for index, (offset, code, ssdeep_hash) in enumerate(feature_set):
         if offset not in c2_data:
             continue
@@ -37,7 +37,7 @@ def vectorize(feature_set, c2_data):
 
 
 def vectorize_with_sparse_features(sparse_feature_set, feature_count, c2_data):
-    vector = lil_matrix((1, feature_count), dtype=np.float)
+    vector = lil_matrix((1, feature_count), dtype=float)
     for index, (offset, code, ssdeep_hash) in sparse_feature_set:
         if offset not in c2_data:
             continue
