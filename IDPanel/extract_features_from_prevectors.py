@@ -13,7 +13,7 @@ if __name__ == "__main__":
             line = json.loads(line)
             if line['label'] in labels_to_ignore:
                 continue
-            if line['offset'] in feature_blacklist:
+            if any(bl in line['offset'] for bl in feature_blacklist):
                 continue
             data_points.append(line)
 

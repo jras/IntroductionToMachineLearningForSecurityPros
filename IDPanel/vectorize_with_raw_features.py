@@ -44,7 +44,7 @@ if __name__ == "__main__":
     sites = {}
     site_labels = {}
     for dp in data_points:
-        if dp['offset'] in feature_blacklist:
+        if any(bl in dp['offset'] for bl in feature_blacklist):
             continue
         if dp['base_url'] not in sites:
             sites[dp['base_url']] = {}
