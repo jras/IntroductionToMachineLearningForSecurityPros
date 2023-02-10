@@ -7,7 +7,9 @@ import struct
 from sklearn.preprocessing import normalize
 
 
-LOG_REGEX = re.compile(r'([^\s]+)\s[^\s]+\s[^\s]+\s\[[^\]]+\]\s"([^\s]*)\s[^"]*"\s([0-9]+)')
+LOG_REGEX = re.compile(r'(\S+)\s\S+\s\S+\s\[[^\]]+\]\s"(\S*)\s[^"]*"\s(\d+)')
+# regex to match logfile lines format to extract ip, request and response,
+# where \S is any non-whitespace, \s is any whitespace, and \d is decimal digit.
 
 
 def ip2int(addr):
